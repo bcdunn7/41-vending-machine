@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import Snack from "./Snack";
+import VendingMachine from "./VendingMachine";
+import NavBar from "./NavBar";
+
 
 function App() {
+  const [snacks, setSnacks] = useState(['apple', 'soda', 'candy', 'coca cola', 'chips', 'chocolate'])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <NavBar snacks={snacks}/>
+        <Route exact path="/">
+          <VendingMachine snacks={snacks}/>
+        </Route>
+        {snacks.map(s => {
+          return (
+            <Route exact path={`/${s}`}>
+              <Snack name={s} />
+            </Route>
+          )
+        })}
+      </BrowserRouter>
     </div>
   );
 }
